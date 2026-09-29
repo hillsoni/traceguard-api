@@ -1,0 +1,63 @@
+# .dockerignore — Files excluded from the Docker build context.
+# Keeping the build context small speeds up `docker build` and prevents
+# secrets from being copied into the image layer.
+
+# ── Version control ───────────────────────────────────────────────────────────
+.git
+.gitignore
+
+# ── Environment / Secrets ────────────────────────────────────────────────────
+# NEVER include .env in the image. Secrets are injected at runtime
+# via environment variables or a secrets manager.
+.env
+.env.*
+!.env.example
+
+# ── Python artifacts ─────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Virtual environments ─────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+ENV/
+
+# ── Testing & coverage ────────────────────────────────────────────────────────
+tests/
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+coverage.xml
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Docker files (not needed inside the image) ────────────────────────────────
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# ── Documentation ────────────────────────────────────────────────────────────
+README.md
+docs/
