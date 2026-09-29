@@ -10,7 +10,7 @@ Werkzeug==3.1.8
 
 # ── Auth & tokens ─────────────────────────────────────────────────────────────
 Flask-JWT-Extended==4.7.1
-bcrypt==4.2.1              # Replaces hashlib.md5 (fix C-1)
+bcrypt==4.2.1
 
 # ── Databases ─────────────────────────────────────────────────────────────────
 Flask-SQLAlchemy==3.1.1
@@ -28,12 +28,10 @@ limits==5.8.0
 redis==5.2.1               # Redis backend for Flask-Limiter
 
 # ── CORS ──────────────────────────────────────────────────────────────────────
-Flask-Cors==5.0.0          # Replaces missing CORS config (fix H-2)
+Flask-Cors==5.0.0
 
 # ── Config & env ──────────────────────────────────────────────────────────────
 python-dotenv==1.2.2
-# NOTE: The `dotenv==0.9.9` package was removed — it is a different,
-# unrelated package that was incorrectly included (fix L-1).
 
 # ── WSGI server (production) ──────────────────────────────────────────────────
 gunicorn==23.0.0

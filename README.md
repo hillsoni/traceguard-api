@@ -1,6 +1,18 @@
 # TraceGuard API
 
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/flask-production-green.svg)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A production-grade, enterprise-ready REST API built with Flask, providing JWT-authenticated request auditing, structured JSON logging, and a layered clean architecture. Fully containerised and OWASP-hardened.
+
+## Table of Contents
+- [Architecture Overview](#architecture-overview)
+- [Repository Structure](#repository-structure)
+- [Local Manual Setup](#local-manual-setup)
+- [Docker & Docker Compose Setup](#docker--docker-compose-setup)
+- [API Reference](#api-reference)
+- [Testing](#testing)
 
 ---
 
@@ -314,33 +326,6 @@ curl http://localhost:8000/health/ready
 | 429 | RATE_LIMIT_EXCEEDED | Too many requests |
 | 500 | INTERNAL_ERROR | Unexpected server error |
 | 503 | SERVICE_UNAVAILABLE | Database unreachable |
-
----
-
-## Security Architecture
-
-| Finding | Severity | Fix Applied |
-|---|---|---|
-| MD5 password hashing | CRITICAL | bcrypt cost=12 with automatic salting |
-| Hardcoded JWT secret in VCS | CRITICAL | Env var, fail-fast at startup |
-| Passwords logged to MongoDB | CRITICAL | Sanitizer redacts sensitive fields |
-| KeyError crash on bad input | CRITICAL | Schema validators use .get() |
-| Missing security headers | HIGH | X-Content-Type-Options, X-Frame-Options, CSP, etc. |
-| No CORS configuration | HIGH | Flask-Cors with explicit origins allowlist |
-| Duplicate error handler | HIGH | Single centralised AppError handler |
-| Dual Limiter instances | HIGH | Single Limiter, per-route decorators |
-| 12-char password max | HIGH | Policy: 8-128 chars |
-| User enumeration | HIGH | Generic "Invalid email or password" for all auth failures |
-| debug=True hardcoded | HIGH | DEBUG driven by config class only |
-| No startup secret validation | HIGH | ProductionConfig.validate() at create_app() |
-| print() statements | MEDIUM | Structured JSON logging throughout |
-| Log injection CWE-117 | MEDIUM | CRLF stripped from all log values |
-| No request ID / tracing | MEDIUM | UUID X-Request-ID per request |
-| KeyError in to_dict | MEDIUM | LogEntry dataclass + asdict() |
-| No DB error handling | MEDIUM | SQLAlchemyError caught, rolled back |
-| Wrong dotenv package | LOW | Removed dotenv==0.9.9, kept python-dotenv |
-| No log pagination | LOW | page + page_size on GET /logs/ |
-| Exception object in MongoDB | LOW | Stored as str(exc) |
 
 ---
 
