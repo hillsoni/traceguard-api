@@ -39,16 +39,16 @@ def readiness():
     try:
         db.session.execute(text("SELECT 1"))
         checks["postgres"] = "ok"
-    except SQLAlchemyError as exc:
-        checks["postgres"] = f"error: {exc}"
+    except SQLAlchemyError:
+        checks["postgres"] = "error"
         healthy = False
 
     # MongoDB check
     try:
         mongo.db.command("ping")
         checks["mongodb"] = "ok"
-    except Exception as exc:
-        checks["mongodb"] = f"error: {exc}"
+    except Exception:
+        checks["mongodb"] = "error"
         healthy = False
 
     status_code = 200 if healthy else 503

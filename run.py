@@ -4,7 +4,7 @@ run.py — Development entrypoint.
 In production, the app is served by gunicorn (see gunicorn.conf.py).
 This file is ONLY for local development via `python run.py`.
 
-debug=True is driven by the config class, NOT hardcoded (fixes H-7).
+debug=True is driven by the config class, NOT hardcoded.
 """
 from __future__ import annotations
 

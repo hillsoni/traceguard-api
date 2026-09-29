@@ -39,7 +39,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 FROM python:3.12-slim AS runtime
 
 # Add security labels
-LABEL maintainer="engineering@yourcompany.com" \
+LABEL maintainer="hillsoni" \
       version="1.0.0" \
       description="TraceGuard API — production image"
 

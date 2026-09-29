@@ -8,7 +8,7 @@ migrate to marshmallow or pydantic-v2.
 Key improvements over original code:
   - Missing fields → ValidationError (not KeyError → 500).
   - Proper email regex (RFC 5322-ish subset).
-  - Password policy: 8–128 chars (drops the absurd 12-char cap, fixes H-5).
+  - Password policy: 8–128 chars.
   - No field defaults that mask missing required data.
 """
 from __future__ import annotations

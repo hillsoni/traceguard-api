@@ -17,7 +17,7 @@ class User(db.Model):
     Represents an authenticated API user stored in PostgreSQL.
 
     Password hashing strategy: bcrypt with cost factor 12 (≈ 250 ms on
-    a modern server). Never stored in plaintext. MD5 removed (fix C-1).
+    a modern server). Never stored in plaintext.
     """
 
     __tablename__ = "users"

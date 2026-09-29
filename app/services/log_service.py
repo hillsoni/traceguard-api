@@ -3,14 +3,6 @@ app/services/log_service.py — Request/Response logging business logic.
 
 Centralises all MongoDB persistence for audit logs. Called from the
 before_request and after_request hooks registered in create_app().
-
-Security fixes:
-  C-4 — Body sanitized before storage (credentials never logged)
-  M-2 — CRLF stripped from all string fields (CWE-117)
-  M-3 — request_id propagated from Flask g
-  M-4 — LogEntry dataclass removes all KeyError risks
-  L-3 — Exception stored as str(), not as Python object
-  L-2 — Pagination added to log retrieval
 """
 from __future__ import annotations
 
@@ -58,7 +50,7 @@ class LogService:
             path=request.full_path,
             url=request.url,
             content_type=request.content_type or "",
-            # Sanitize body — strips passwords and CRLF (C-4, M-2)
+            # Sanitize body — strips passwords and CRLF
             body=sanitize_body(
                 request.get_data(as_text=True),
                 content_type=request.content_type or "",
@@ -105,7 +97,7 @@ class LogService:
     @classmethod
     def capture_exception(cls, log_id: str, exception: BaseException) -> None:
         """
-        Attach a string-serialised exception to the log document (fix L-3).
+        Attach a string-serialised exception to the log document.
         """
         if not log_id:
             return
@@ -135,7 +127,7 @@ class LogService:
         filters: Optional[dict] = None,
     ) -> dict:
         """
-        Return a paginated list of log entries (fix L-2).
+        Return a paginated list of log entries.
 
         Args:
             page:       1-based page number.

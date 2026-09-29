@@ -5,7 +5,7 @@ Responsibilities:
   1. Generate a unique request_id (X-Request-ID) for distributed tracing.
   2. Emit a structured JSON log line for every request/response (replaces
      the inline before/after_request in the old __init__.py).
-  3. Inject security headers on every response (fixes H-1).
+  3. Inject security headers on every response.
   4. Expose request_id to the rest of the application via flask.g.
 """
 from __future__ import annotations
@@ -32,7 +32,7 @@ def register_middleware(app: Flask) -> None:
     @app.after_request
     def _add_security_headers(response: Response) -> Response:
         """
-        Inject security headers on every response (fixes H-1).
+        Inject security headers on every response.
         These are intentionally conservative defaults suitable for an API;
         adjust CSP if you later serve HTML.
         """

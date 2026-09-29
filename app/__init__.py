@@ -42,7 +42,7 @@ def create_app(config_class: Type[BaseConfig] | None = None) -> Flask:
     if config_class is None:
         config_class = get_config()
 
-    # Validate required secrets before constructing anything (fixes H-8)
+    # Validate required secrets before constructing anything
     if hasattr(config_class, "validate"):
         config_class.validate()
 
@@ -59,7 +59,7 @@ def create_app(config_class: Type[BaseConfig] | None = None) -> Flask:
     jwt.init_app(app)
     limiter.init_app(app)
 
-    # ── CORS (fixes H-2) ─────────────────────────────────────────────────────
+    # ── CORS ──────────────────────────────────────────────────────────────────
     CORS(
         app,
         origins=app.config.get("CORS_ORIGINS", []),
@@ -156,7 +156,7 @@ def _register_jwt_handlers(app: Flask) -> None:
 
 def _register_error_handlers(app: Flask) -> None:
     """
-    Centralised, standardised JSON error responses (fixes H-3: duplicate handler).
+    Centralised, standardised JSON error responses.
     All handlers use the same envelope format.
     """
 

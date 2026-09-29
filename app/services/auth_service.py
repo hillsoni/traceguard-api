@@ -3,13 +3,6 @@ app/services/auth_service.py — Authentication business logic.
 
 This is a pure service layer — no Flask imports, no HTTP concerns.
 Views call these methods and handle the JSON serialisation.
-
-Security fixes applied:
-  C-1 — bcrypt replaces MD5
-  C-2 — JWT secret validated at startup (in config)
-  H-5 — password policy enforced in schema before reaching service
-  H-6 — unified "Invalid credentials" message for user enumeration prevention
-  H-8 — JWT secret validated at startup
 """
 from __future__ import annotations
 
@@ -54,7 +47,7 @@ class AuthService:
             raise ConflictError(f"Username '{schema.username}' is already taken.")
 
         user = User(email=schema.email, username=schema.username)
-        user.set_password(schema.password)   # bcrypt hash (fix C-1)
+        user.set_password(schema.password)
 
         try:
             db.session.add(user)
@@ -91,7 +84,7 @@ class AuthService:
         Validate credentials and return tokens.
 
         Returns the same generic error for "user not found" and "wrong
-        password" to prevent user enumeration (fix H-6).
+        password" to prevent user enumeration.
 
         Raises:
             AuthenticationError: Credentials invalid or account inactive.
@@ -108,7 +101,7 @@ class AuthService:
         if not user.is_active:
             raise AuthenticationError("This account has been deactivated.")
 
-        # Constant-time compare via bcrypt.checkpw (fix H-6 timing attack)
+        # Constant-time compare via bcrypt.checkpw
         if not user.check_password(schema.password):
             logger.warning("login_bad_password", extra={"user_id": user.id})
             raise _AUTH_ERROR
